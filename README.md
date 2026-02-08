@@ -1,21 +1,21 @@
-# 🛍️ Boutique Online
+#  Boutique Online
 
 Un site web de boutique en ligne moderne permettant de consulter des produits et commander via WhatsApp.
 
-## 🚀 Fonctionnalités
+## Fonctionnalités
 
-- 📱 Interface responsive et moderne
-- 🛒 Panier d'achat fonctionnel
-- 📦 Affichage des produits avec détails
-- 💬 Intégration WhatsApp pour les commandes
-- 💰 Calcul automatique du total
+- Interface responsive et moderne
+- Panier d'achat fonctionnel
+- Affichage des produits avec détails
+- Intégration WhatsApp pour les commandes
+- Calcul automatique du total
 
-## 📋 Prérequis
+## Prérequis
 
 - Python 3.8+
 - pip (gestionnaire de paquets Python)
 
-## 🔧 Installation
+## Installation
 
 1. **Cloner ou extraire le projet**
    ```bash
@@ -33,7 +33,7 @@ Un site web de boutique en ligne moderne permettant de consulter des produits et
    pip install -r requirements.txt
    ```
 
-## ▶️ Lancer l'application
+##  Lancer l'application
 
 ```bash
 python backend/app.py
@@ -41,7 +41,7 @@ python backend/app.py
 
 Ouvrir votre navigateur et aller à: **http://localhost:5000**
 
-## 📝 Configuration
+##  Configuration
 
 ### Modifier le numéro WhatsApp
 
@@ -54,7 +54,7 @@ phone = "221764536464"  # Mets ton numéro WhatsApp ici
 
 Modifie [backend/products.json](backend/products.json) pour ajouter/modifier les produits.
 
-## 📂 Structure du Projet
+## Structure du Projet
 
 ```
 Boutiqueonline/
@@ -72,20 +72,20 @@ Boutiqueonline/
 └── README.md                  # Ce fichier
 ```
 
-## 💡 Comment ça marche
+## Comment ça marche
 
 1. Les produits sont affichés depuis `products.json`
 2. L'utilisateur ajoute des articles au panier
 3. En cliquant sur "Commander", un message WhatsApp est généré
 4. Le lien WhatsApp ouvre la conversation avec le numéro configuré
 
-## 🎨 Customisation
+## Customisation
 
 - Modifie les couleurs dans [backend/static/css/style.css](backend/static/css/style.css)
 - Ajoute ton logo dans le header
 - Personnalise le message WhatsApp dans [backend/app.py](backend/app.py)
 
-## 📞 Support
+## Support
 
 Pour les questions ou problèmes, vérifie:
 - Que Flask est bien installé
@@ -94,4 +94,4 @@ Pour les questions ou problèmes, vérifie:
 
 ---
 
-Made with ❤️ by Boutique Online Team
+Made with by Boutique Online Team
