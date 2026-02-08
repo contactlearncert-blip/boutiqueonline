@@ -1,10 +1,9 @@
-[build]
-command = "pip install -r requirements.txt"
-
-[env]
-SUPABASE_URL = "@SUPABASE_URL"
-SUPABASE_KEY = "@SUPABASE_KEY"
-
-[[functions]]
-path = "api"
-runtime = "python3.9"
+{
+	"version": 2,
+	"builds": [
+		{ "src": "api/index.py", "use": "@vercel/python" }
+	],
+	"routes": [
+		{ "src": "/(.*)", "dest": "api/index.py" }
+	]
+}
