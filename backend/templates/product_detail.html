@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - Boutique Online</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <h3>Menu</h3>
+            <button class="mobile-menu-close">✕</button>
+        </div>
+        <nav class="mobile-menu-nav">
+            <ul>
+                <li><a href="/">Tous les Produits</a></li>
+                <li><a href="#" onclick="filterCategory('Vêtements')">Vêtements</a></li>
+                <li><a href="#" onclick="filterCategory('Accessoires')">Accessoires</a></li>
+                <li><a href="#" onclick="filterCategory('Chaussures')">Chaussures</a></li>
+                <li><a href="#" onclick="filterCategory('Bijoux')">Bijoux</a></li>
+                <li><a href="/about">À propos</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
+
+    <!-- Produit Détail -->
+    <section class="container product-detail-section">
+        <a href="/" class="back-link">← Retour aux produits</a>
+        
+        <div class="product-detail">
+            <div class="product-detail-image">
+                <img src="{{ product.image }}" alt="{{ product.name }}">
+            </div>
+            
+            <div class="product-detail-info">
+                <div class="product-category-badge">{{ product.category }}</div>
+                <h1>{{ product.name }}</h1>
+                
+                <p class="product-description-full">{{ product.description }}</p>
+                
+                <div class="product-detail-price">
+                    <span class="price">{{ product.price }} FCFA</span>
+                </div>
+                
+                <div class="product-detail-actions">
+                    <div class="quantity-selector">
+                        <button onclick="decreaseQty()">−</button>
+                        <span id="qtyDisplay">1</span>
+                        <button onclick="increaseQty()">+</button>
+                    </div>
+                    <button class="btn btn-primary" onclick="addToCartFromDetail({{ product.id }}, '{{ product.name }}', {{ product.price }})">
+                        Ajouter au panier
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Votre Panier</h2>
+            <div id="cartItems"></div>
+            <div class="cart-total">
+                <strong>Total: <span id="totalPrice">0</span> FCFA</strong>
+            </div>
+            <button class="btn btn-primary" id="checkoutBtn">Commander via WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Boutique Online. Tous droits réservés.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        let detailQty = 1;
+
+        function increaseQty() {
+            detailQty++;
+            document.getElementById('qtyDisplay').textContent = detailQty;
+        }
+
+        function decreaseQty() {
+            if (detailQty > 1) {
+                detailQty--;
+                document.getElementById('qtyDisplay').textContent = detailQty;
+            }
+        }
+
+        function addToCartFromDetail(id, name, price) {
+            for (let i = 0; i < detailQty; i++) {
+                addToCart(id, name, price);
+            }
+            showNotification(`${detailQty}x ${name} ajoutés au panier!`);
+            detailQty = 1;
+            document.getElementById('qtyDisplay').textContent = detailQty;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>À propos - Boutique Online</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <a href="/" class="logo">Boutique Online</a>
+    </div>
+  </header>
+
+  <main class="container" style="padding:40px 0;">
+    <div class="card">
+      <h2>À propos</h2>
+      <p>Bienvenue sur Boutique Online. Notre objectif est de vous proposer une sélection soignée de produits locaux et internationaux.</p>
+
+      <h3>Confidentialité & Données personnelles</h3>
+      <p>Nous ne conservons aucune donnée personnelle sur ce site. Aucune information personnelle (nom, adresse, e-mail, numéro de téléphone) n'est stockée par Boutique Online sur nos serveurs.</p>
+
+      <h3>Processus de commande</h3>
+      <p>Toutes les commandes sont finalisées via WhatsApp. Lorsque vous validez une commande sur le site, nous construisons un message contenant le détail des articles et le montant total, puis ouvrons une conversation WhatsApp avec notre numéro commercial afin que vous puissiez confirmer et finaliser la transaction directement.</p>
+
+      <h3>Contact</h3>
+      <p>Pour toute question, écrivez-nous sur WhatsApp ou utilisez les coordonnées visibles dans la barre du site.</p>
+
+      <p style="margin-top:20px; font-size:0.95em; color:#555;">Dernière mise à jour: 2026</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a href="/about">À propos</a> • <a href="/">Accueil</a>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

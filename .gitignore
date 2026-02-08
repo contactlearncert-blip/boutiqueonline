@@ -1,0 +1,14 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+.DS_Store
+node_modules/
+backend/static/img/*.png
+backend/static/img/*.jpg
+backend/static/img/*.jpeg
+.idea/
+.vscode/
+/*.log

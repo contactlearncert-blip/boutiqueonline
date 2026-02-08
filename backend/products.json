@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Robe Traditionnelle",
+    "price": 25000,
+    "description": "Belle robe traditionnelle colorée et élégante",
+    "image": "https://via.placeholder.com/300x300?text=Robe+Traditionnelle",
+    "category": "Vêtements"
+  },
+  {
+    "id": 2,
+    "name": "Sac à Main",
+    "price": 15000,
+    "description": "Sac à main en cuir véritable",
+    "image": "https://via.placeholder.com/300x300?text=Sac+Main",
+    "category": "Accessoires"
+  },
+  {
+    "id": 3,
+    "name": "Chaussures Élégantes",
+    "price": 20000,
+    "description": "Chaussures confortables et stylées",
+    "image": "https://via.placeholder.com/300x300?text=Chaussures",
+    "category": "Chaussures"
+  },
+  {
+    "id": 4,
+    "name": "Collier Doré",
+    "price": 8000,
+    "description": "Collier en or véritable",
+    "image": "https://via.placeholder.com/300x300?text=Collier",
+    "category": "Bijoux"
+  },
+  {
+    "id": 5,
+    "name": "Chapeau Traditionnel",
+    "price": 5000,
+    "description": "Chapeau traditionnel authentique",
+    "image": "https://via.placeholder.com/300x300?text=Chapeau",
+    "category": "Accessoires"
+  },
+  {
+    "id": 6,
+    "name": "Bracelet Tissé",
+    "price": 3000,
+    "description": "Bracelet fait main tressé",
+    "image": "https://via.placeholder.com/300x300?text=Bracelet",
+    "category": "Bijoux"
+  }
+]
