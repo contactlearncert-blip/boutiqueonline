@@ -1,0 +1,10 @@
+[build]
+command = "pip install -r requirements.txt"
+
+[env]
+SUPABASE_URL = "@SUPABASE_URL"
+SUPABASE_KEY = "@SUPABASE_KEY"
+
+[[functions]]
+path = "api"
+runtime = "python3.9"
