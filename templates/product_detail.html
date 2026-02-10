@@ -3,85 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ product.name }} - Boutique Online</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- SEO Meta Tags -->
+    <title>{{ product.name }} - Boutique Online | Mode & Accessoires</title>
+    <meta name="description" content="{{ product.description }}">
+    <meta name="keywords" content="{{ product.category }}, {{ product.name }}, boutique en ligne, Sénégal, mode">
+    <meta name="author" content="Boutique Online">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media Meta -->
+    <meta property="og:title" content="{{ product.name }} - Boutique Online">
+    <meta property="og:description" content="{{ product.description }}">
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ product.image if product.image.startswith('http') else url_for('static', filename=product.image, _external=True) }}">
+    <meta property="og:site_name" content="Boutique Online">
+    <meta property="og:price:amount" content="{{ product.price }}">
+    <meta property="og:price:currency" content="XOF">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ product.name }} - Boutique Online">
+    <meta name="twitter:description" content="{{ product.description }}">
+    <meta name="twitter:image" content="{{ product.image if product.image.startswith('http') else url_for('static', filename=product.image, _external=True) }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="{{ url_for('static', filename='css/style.css') }}" as="style">
+    <link rel="preload" href="{{ url_for('static', filename='js/script.js') }}" as="script">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" media="all">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.url }}">
 </head>
 <body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
 
     <!-- Mobile menu -->
-    <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu de navigation">
         <div class="mobile-menu-header">
             <h3>Menu</h3>
-            <button class="mobile-menu-close">✕</button>
+            <button class="mobile-menu-close" aria-label="Fermer le menu">✕</button>
         </div>
-        <nav class="mobile-menu-nav">
+        <nav class="mobile-menu-nav" aria-label="Navigation mobile">
             <ul>
-                <li><a href="/">Tous les Produits</a></li>
-                <li><a href="#" onclick="filterCategory('Vêtements')">Vêtements</a></li>
-                <li><a href="#" onclick="filterCategory('Accessoires')">Accessoires</a></li>
-                <li><a href="#" onclick="filterCategory('Chaussures')">Chaussures</a></li>
-                <li><a href="#" onclick="filterCategory('Bijoux')">Bijoux</a></li>
-                <li><a href="/about">À propos</a></li>
+                <li><a href="/" aria-label="Retour à l'accueil">Tous les Produits</a></li>
+                <li><a href="#" onclick="filterCategory('Vêtements')" aria-label="Filtrer par vêtements">Vêtements</a></li>
+                <li><a href="#" onclick="filterCategory('Accessoires')" aria-label="Filtrer par accessoires">Accessoires</a></li>
+                <li><a href="#" onclick="filterCategory('Chaussures')" aria-label="Filtrer par chaussures">Chaussures</a></li>
+                <li><a href="#" onclick="filterCategory('Bijoux')" aria-label="Filtrer par bijoux">Bijoux</a></li>
+                <li><a href="/about" aria-label="À propos de nous">À propos</a></li>
             </ul>
         </nav>
     </div>
-    <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
+    <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" aria-hidden="true"></div>
 
     <!-- Produit Détail -->
-    <section class="container product-detail-section">
-        <a href="/" class="back-link">← Retour aux produits</a>
-        
-        <div class="product-detail">
-            <div class="product-detail-image">
-                <img src="{{ product.image }}" alt="{{ product.name }}">
-            </div>
+    <main id="main-content" role="main">
+        <section class="container product-detail-section" itemscope itemtype="https://schema.org/Product">
+            <a href="/" class="back-link" aria-label="Retour à la liste des produits">← Retour aux produits</a>
             
-            <div class="product-detail-info">
-                <div class="product-category-badge">{{ product.category }}</div>
-                <h1>{{ product.name }}</h1>
-                
-                <p class="product-description-full">{{ product.description }}</p>
-                
-                <div class="product-detail-price">
-                    <span class="price">{{ product.price }} FCFA</span>
+            <div class="product-detail">
+                <div class="product-detail-image">
+                    <img src="{{ product.image }}" alt="{{ product.name }}" itemprop="image">
                 </div>
                 
-                <div class="product-detail-actions">
-                    <div class="quantity-selector">
-                        <button onclick="decreaseQty()">−</button>
-                        <span id="qtyDisplay">1</span>
-                        <button onclick="increaseQty()">+</button>
+                <div class="product-detail-info">
+                    <div class="product-category-badge" aria-label="Catégorie : {{ product.category }}">{{ product.category }}</div>
+                    <h1 itemprop="name">{{ product.name }}</h1>
+                    
+                    <p class="product-description-full" itemprop="description">{{ product.description }}</p>
+                    
+                    <div class="product-detail-price">
+                        <span class="price" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                            <meta itemprop="priceCurrency" content="XOF">
+                            <meta itemprop="price" content="{{ product.price }}">
+                            <span itemprop="price">{{ product.price }} FCFA</span>
+                        </span>
                     </div>
-                    <button class="btn btn-primary" id="addToCartBtn"
-                        data-product-id="{{ product.id }}"
-                        data-product-name="{{ product.name }}"
-                        data-product-price="{{ product.price }}">
-                        Ajouter au panier
-                    </button>
+                    
+                    <div class="product-detail-actions">
+                        <div class="quantity-selector" role="group" aria-label="Sélection de la quantité">
+                            <button type="button" onclick="decreaseQty()" aria-label="Diminuer la quantité" aria-controls="qtyDisplay">−</button>
+                            <span id="qtyDisplay" aria-live="polite">1</span>
+                            <button type="button" onclick="increaseQty()" aria-label="Augmenter la quantité" aria-controls="qtyDisplay">+</button>
+                        </div>
+                        <button class="btn btn-primary" id="addToCartBtn"
+                            data-product-id="{{ product.id }}"
+                            data-product-name="{{ product.name }}"
+                            data-product-price="{{ product.price }}"
+                            aria-label="Ajouter {{ product.name }} au panier">
+                            Ajouter au panier
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Cart Modal -->
-    <div class="modal" id="cartModal">
+    <div class="modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartModalTitle" aria-hidden="true">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Votre Panier</h2>
-            <div id="cartItems"></div>
+            <button class="close" aria-label="Fermer le panier">&times;</button>
+            <h2 id="cartModalTitle">Votre Panier</h2>
+            <div id="cartItems" role="list"></div>
             <div class="cart-total">
                 <strong>Total: <span id="totalPrice">0</span> FCFA</strong>
             </div>
-            <button class="btn btn-primary" id="checkoutBtn">Commander via WhatsApp</button>
+            <button class="btn btn-primary" id="checkoutBtn" aria-label="Commander via WhatsApp">Commander via WhatsApp</button>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2026 Boutique Online. Tous droits réservés.</p>
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Boutique Online</h3>
+                    <p>Votre destination mode au Sénégal</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>📞 +221 76 453 6464</p>
+                    <p>📧 contact@boutiqueonline.sn</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liens utiles</h4>
+                    <ul>
+                        <li><a href="/about" aria-label="À propos">À propos</a></li>
+                        <li><a href="/contact" aria-label="Contact">Contact</a></li>
+                        <li><a href="/cgv" aria-label="Conditions générales">CGV</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Boutique Online. Tous droits réservés.</p>
+            </div>
+        </div>
     </footer>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "{{ product.name }}",
+      "description": "{{ product.description }}",
+      "image": "{{ product.image if product.image.startswith('http') else url_for('static', filename=product.image, _external=True) }}",
+      "brand": {
+        "@type": "Brand",
+        "name": "Boutique Online"
+      },
+      "category": "{{ product.category }}",
+      "offers": {
+        "@type": "Offer",
+        "url": "{{ request.url }}",
+        "priceCurrency": "XOF",
+        "price": "{{ product.price }}",
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@type": "Organization",
+          "name": "Boutique Online",
+          "telephone": "+221764536464"
+        }
+      }
+    }
+    </script>
+
+    <!-- JavaScript with async loading for better performance -->
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    
     <script>
         let detailQty = 1;
 
@@ -106,7 +203,7 @@
             for (let i = 0; i < detailQty; i++) {
                 addToCart(productId, productName, productPrice);
             }
-            showNotification(`${detailQty}x ${productName} ajoutés au panier!`);
+            showNotification(`${detailQty}x ${productName} ajouté${detailQty > 1 ? 's' : ''} au panier!`);
             detailQty = 1;
             document.getElementById('qtyDisplay').textContent = detailQty;
         }

@@ -3,67 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique Online - Vos Produits Préférés</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- SEO Meta Tags -->
+    <title>Boutique Online - Vos Produits Préférés | Mode & Accessoires</title>
+    <meta name="description" content="Découvrez notre sélection de vêtements, accessoires, chaussures et bijoux à des prix imbattables. Livraison rapide au Sénégal.">
+    <meta name="keywords" content="boutique en ligne, mode, vêtements, accessoires, chaussures, bijoux, Sénégal, shopping">
+    <meta name="author" content="Boutique Online">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media Meta -->
+    <meta property="og:title" content="Boutique Online - Vos Produits Préférés">
+    <meta property="og:description" content="Découvrez notre sélection de vêtements, accessoires, chaussures et bijoux à des prix imbattables">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ url_for('static', filename='img/logo.png', _external=True) }}">
+    <meta property="og:site_name" content="Boutique Online">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Boutique Online - Vos Produits Préférés">
+    <meta name="twitter:description" content="Mode & Accessoires à prix imbattables au Sénégal">
+    <meta name="twitter:image" content="{{ url_for('static', filename='img/logo.png', _external=True) }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="{{ url_for('static', filename='css/style.css') }}" as="style">
+    <link rel="preload" href="{{ url_for('static', filename='js/script.js') }}" as="script">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" media="all">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.url }}">
 </head>
 <body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
     <!-- Mobile menu sidebar -->
-    <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu de navigation">
         <div class="mobile-menu-header">
             <h3>Menu</h3>
-            <button class="mobile-menu-close">&times;</button>
+            <button class="mobile-menu-close" aria-label="Fermer le menu">&times;</button>
         </div>
-        <nav class="mobile-menu-nav">
+        <nav class="mobile-menu-nav" aria-label="Navigation mobile">
             <ul>
-                <li><a href="#" onclick="filterCategory('all')">Tous les Produits</a></li>
-                <li><a href="#" onclick="filterCategory('Vêtements')">Vêtements</a></li>
-                <li><a href="#" onclick="filterCategory('Accessoires')">Accessoires</a></li>
-                <li><a href="#" onclick="filterCategory('Chaussures')">Chaussures</a></li>
-                <li><a href="#" onclick="filterCategory('Bijoux')">Bijoux</a></li>
-                <li><a href="/about">À propos</a></li>
+                <li><a href="#" onclick="filterCategory('all')" aria-label="Afficher tous les produits">Tous les Produits</a></li>
+                <li><a href="#" onclick="filterCategory('Vêtements')" aria-label="Filtrer par vêtements">Vêtements</a></li>
+                <li><a href="#" onclick="filterCategory('Accessoires')" aria-label="Filtrer par accessoires">Accessoires</a></li>
+                <li><a href="#" onclick="filterCategory('Chaussures')" aria-label="Filtrer par chaussures">Chaussures</a></li>
+                <li><a href="#" onclick="filterCategory('Bijoux')" aria-label="Filtrer par bijoux">Bijoux</a></li>
+                <li><a href="/about" aria-label="À propos de nous">À propos</a></li>
             </ul>
         </nav>
     </div>
 
     <!-- Mobile menu backdrop -->
-    <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
+    <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" aria-hidden="true"></div>
+    
     <!-- Top contact bar -->
-    <div class="top-bar">
+    <div class="top-bar" role="banner">
         <div class="container">
             <span>📞 Appelez pour commander : <strong>+221 76 453 6464</strong></span>
         </div>
     </div>
 
     <!-- Header -->
-    <header class="header">
+    <header class="header" role="banner">
         <div class="container header-content">
-            <button class="hamburger" aria-label="Menu">☰</button>
+            <button class="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu">☰</button>
 
             <div class="logo-section">
-                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo" class="logo-img" onerror="this.style.display='none'">
-                <span class="logo">Boutique Online</span>
+                <a href="/" class="logo-link">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Boutique Online" class="logo-img" onerror="this.style.display='none'">
+                    <span class="logo">Boutique Online</span>
+                </a>
             </div>
 
             <div class="header-icons">
-                <button class="btn-cart"><span class="cart-icon">🛒</span><span class="cart-count">0</span></button>
+                <button class="btn-cart" aria-label="Ouvrir le panier" aria-haspopup="dialog">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count" id="cartCountBadge">0</span>
+                    <span class="visually-hidden">articles dans le panier</span>
+                </button>
             </div>
         </div>
 
         <div class="search-area desktop-search">
-            <input type="text" class="search-input" placeholder="Cherchez un produit, une marque ou une catégorie">
-            <button class="btn-search">Rechercher</button>
+            <form action="/search" method="GET" role="search">
+                <input type="text" class="search-input" name="q" placeholder="Cherchez un produit, une marque ou une catégorie" aria-label="Recherche">
+                <button type="submit" class="btn-search" aria-label="Rechercher">Rechercher</button>
+            </form>
         </div>
     </header>
 
     <!-- Category nav -->
-    <nav class="category-nav">
+    <nav class="category-nav" aria-label="Navigation par catégories">
         <div class="container">
-            <ul>
-                <li class="active" onclick="filterCategory('all')">Tous les Produits</li>
-                <li onclick="filterCategory('Vêtements')">Vêtements</li>
-                <li onclick="filterCategory('Accessoires')">Accessoires</li>
-                <li onclick="filterCategory('Chaussures')">Chaussures</li>
-                <li onclick="filterCategory('Bijoux')">Bijoux</li>
+            <ul role="tablist">
+                <li class="active" role="tab" aria-selected="true" aria-controls="category-all" onclick="filterCategory('all')">Tous les Produits</li>
+                <li role="tab" aria-selected="false" aria-controls="category-vetements" onclick="filterCategory('Vêtements')">Vêtements</li>
+                <li role="tab" aria-selected="false" aria-controls="category-accessoires" onclick="filterCategory('Accessoires')">Accessoires</li>
+                <li role="tab" aria-selected="false" aria-controls="category-chaussures" onclick="filterCategory('Chaussures')">Chaussures</li>
+                <li role="tab" aria-selected="false" aria-controls="category-bijoux" onclick="filterCategory('Bijoux')">Bijoux</li>
             </ul>
         </div>
     </nav>
@@ -71,29 +116,31 @@
     <!-- Mobile search (visible on small screens) -->
     <div class="container mobile-search">
         <div class="search-area">
-            <input type="text" class="search-input" placeholder="Cherchez un produit, une marque ou une catégorie">
-            <button class="btn-search">Rechercher</button>
+            <form action="/search" method="GET" role="search">
+                <input type="text" class="search-input" name="q" placeholder="Cherchez un produit, une marque ou une catégorie" aria-label="Recherche mobile">
+                <button type="submit" class="btn-search" aria-label="Rechercher">Rechercher</button>
+            </form>
         </div>
     </div>
 
     <!-- Hero Section -->
-    <section class="hero hero-background">
+    <section class="hero hero-background" aria-label="Promotions">
         <div class="container hero-inner">
             <h2>Présentations Spéciales</h2>
-            <p>Jusqu'à <span class="badge">-70%</span> sur nos produits sélectionnés</p>
+            <p>Jusqu'à <span class="badge" aria-label="Réduction de 70 pourcent">-70%</span> sur nos produits sélectionnés</p>
         </div>
     </section>
 
     <!-- Products Section -->
-    <section class="products">
+    <section class="products" id="main-content" role="main">
         <div class="container layout">
-            <aside class="sidebar">
+            <aside class="sidebar" aria-label="Filtres et recherche">
                 <div class="card">
                     <h3>Recherche</h3>
                     <div class="sidebar-search">
                         <div class="search-area">
-                            <input id="sidebarSearchInput" type="text" class="search-input" placeholder="Rechercher des produits, marques, catégories" oninput="performSidebarSearch()">
-                            <button class="btn-search" onclick="performSidebarSearch()">Rechercher</button>
+                            <input id="sidebarSearchInput" type="text" class="search-input" placeholder="Rechercher des produits, marques, catégories" oninput="performSidebarSearch()" aria-label="Recherche dans la sidebar">
+                            <button class="btn-search" onclick="performSidebarSearch()" aria-label="Rechercher">Rechercher</button>
                         </div>
                     </div>
                 </div>
@@ -102,33 +149,85 @@
             <main class="main-area">
                 <div class="card products-card">
                     <h2>Nos Produits</h2>
-                    <div class="products-grid" id="productsGrid">
-                        <p class="empty">Aucun produit trouvé</p>
+                    <div class="products-grid" id="productsGrid" role="region" aria-live="polite">
+                        <p class="empty" id="emptyMessage">Aucun produit trouvé</p>
+                        <!-- Products will be loaded here dynamically -->
                     </div>
-                    <div class="pagination" id="paginationContainer"></div>
+                    <div class="pagination" id="paginationContainer" role="navigation" aria-label="Pagination"></div>
                 </div>
             </main>
         </div>
     </section>
 
     <!-- Cart Modal -->
-    <div class="modal" id="cartModal">
+    <div class="modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartModalTitle" aria-hidden="true">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Votre Panier</h2>
-            <div id="cartItems"></div>
+            <button class="close" aria-label="Fermer le panier">&times;</button>
+            <h2 id="cartModalTitle">Votre Panier</h2>
+            <div id="cartItems" role="list"></div>
             <div class="cart-total">
                 <strong>Total: <span id="totalPrice">0</span> FCFA</strong>
             </div>
-            <button class="btn btn-primary" id="checkoutBtn">Commander via WhatsApp</button>
+            <button class="btn btn-primary" id="checkoutBtn" aria-label="Commander via WhatsApp">Commander via WhatsApp</button>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2026 Boutique Online. Tous droits réservés.</p>
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Boutique Online</h3>
+                    <p>Votre destination mode au Sénégal</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>📞 +221 76 453 6464</p>
+                    <p>📧 contact@boutiqueonline.sn</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liens utiles</h4>
+                    <ul>
+                        <li><a href="/about" aria-label="À propos">À propos</a></li>
+                        <li><a href="/contact" aria-label="Contact">Contact</a></li>
+                        <li><a href="/cgv" aria-label="Conditions générales">CGV</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Boutique Online. Tous droits réservés.</p>
+            </div>
+        </div>
     </footer>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Boutique Online",
+      "url": "{{ request.url_root }}",
+      "description": "Boutique en ligne de mode et accessoires au Sénégal",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ request.url_root }}search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- JavaScript with async loading for better performance -->
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    
+    <!-- Google Analytics (optional) -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'YOUR_GA_ID');
+    </script>
+    -->
 </body>
 </html>

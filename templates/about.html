@@ -1,42 +1,233 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>À propos - Boutique Online</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>À propos - Boutique Online | Mode & Accessoires au Sénégal</title>
+    <meta name="description" content="Découvrez Boutique Online, votre boutique en ligne de mode et accessoires au Sénégal. Produits locaux et internationaux, livraison rapide.">
+    <meta name="keywords" content="boutique en ligne, à propos, mode, Sénégal, shopping, vêtements, accessoires">
+    <meta name="author" content="Boutique Online">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media Meta -->
+    <meta property="og:title" content="À propos - Boutique Online">
+    <meta property="og:description" content="Découvrez notre histoire et notre engagement pour vous offrir les meilleurs produits de mode au Sénégal">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ url_for('static', filename='img/logo.png', _external=True) }}">
+    <meta property="og:site_name" content="Boutique Online">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="À propos - Boutique Online">
+    <meta name="twitter:description" content="Votre boutique de mode en ligne au Sénégal">
+    <meta name="twitter:image" content="{{ url_for('static', filename='img/logo.png', _external=True) }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="{{ url_for('static', filename='css/style.css') }}" as="style">
+    <link rel="preload" href="{{ url_for('static', filename='js/script.js') }}" as="script">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" media="all">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.url }}">
 </head>
 <body>
-  <header class="header">
-    <div class="container header-content">
-      <a href="/" class="logo">Boutique Online</a>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu de navigation">
+        <div class="mobile-menu-header">
+            <h3>Menu</h3>
+            <button class="mobile-menu-close" aria-label="Fermer le menu">✕</button>
+        </div>
+        <nav class="mobile-menu-nav" aria-label="Navigation mobile">
+            <ul>
+                <li><a href="/" aria-label="Accueil">Tous les Produits</a></li>
+                <li><a href="#" onclick="filterCategory('Vêtements')" aria-label="Filtrer par vêtements">Vêtements</a></li>
+                <li><a href="#" onclick="filterCategory('Accessoires')" aria-label="Filtrer par accessoires">Accessoires</a></li>
+                <li><a href="#" onclick="filterCategory('Chaussures')" aria-label="Filtrer par chaussures">Chaussures</a></li>
+                <li><a href="#" onclick="filterCategory('Bijoux')" aria-label="Filtrer par bijoux">Bijoux</a></li>
+                <li><a href="/about" aria-label="À propos de nous" class="active">À propos</a></li>
+            </ul>
+        </nav>
     </div>
-  </header>
+    <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" aria-hidden="true"></div>
 
-  <main class="container" style="padding:40px 0;">
-    <div class="card">
-      <h2>À propos</h2>
-      <p>Bienvenue sur Boutique Online. Notre objectif est de vous proposer une sélection soignée de produits locaux et internationaux.</p>
-
-      <h3>Confidentialité & Données personnelles</h3>
-      <p>Nous ne conservons aucune donnée personnelle sur ce site. Aucune information personnelle (nom, adresse, e-mail, numéro de téléphone) n'est stockée par Boutique Online sur nos serveurs.</p>
-
-      <h3>Processus de commande</h3>
-      <p>Toutes les commandes sont finalisées via WhatsApp. Lorsque vous validez une commande sur le site, nous construisons un message contenant le détail des articles et le montant total, puis ouvrons une conversation WhatsApp avec notre numéro commercial afin que vous puissiez confirmer et finaliser la transaction directement.</p>
-
-      <h3>Contact</h3>
-      <p>Pour toute question, écrivez-nous sur WhatsApp ou utilisez les coordonnées visibles dans la barre du site.</p>
-
-      <p style="margin-top:20px; font-size:0.95em; color:#555;">Dernière mise à jour: 2026</p>
+    <!-- Top contact bar -->
+    <div class="top-bar" role="banner">
+        <div class="container">
+            <span>📞 Appelez pour commander : <strong>+221 76 453 6464</strong></span>
+        </div>
     </div>
-  </main>
 
-  <footer class="footer">
-    <div class="container">
-      <a href="/about">À propos</a> • <a href="/">Accueil</a>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container header-content">
+            <button class="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+
+            <div class="logo-section">
+                <a href="/" class="logo-link" aria-label="Accueil Boutique Online">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Boutique Online" class="logo-img" onerror="this.style.display='none'">
+                    <span class="logo">Boutique Online</span>
+                </a>
+            </div>
+
+            <div class="header-icons">
+                <button class="btn-cart" aria-label="Ouvrir le panier" aria-haspopup="dialog">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count" id="cartCountBadge">0</span>
+                    <span class="visually-hidden">articles dans le panier</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="container" style="padding:40px 0;" role="main">
+        <div class="card">
+            <h1>À propos de Boutique Online</h1>
+            
+            <section aria-labelledby="welcome-heading">
+                <h2 id="welcome-heading">Bienvenue chez Boutique Online</h2>
+                <p>Nous sommes une boutique en ligne dédiée à vous proposer une sélection soignée de produits locaux et internationaux, alliant qualité, style et accessibilité. Notre mission est de vous offrir une expérience de shopping moderne, sécurisée et agréable, directement depuis chez vous.</p>
+            </section>
+
+            <section aria-labelledby="privacy-heading" style="margin-top:30px;">
+                <h2 id="privacy-heading">Confidentialité & Données personnelles</h2>
+                <p><strong>Nous respectons votre vie privée.</strong> Boutique Online ne conserve aucune donnée personnelle sur ce site. Aucune information personnelle (nom, adresse, e-mail, numéro de téléphone) n'est stockée par nos serveurs.</p>
+                <p>Votre navigation est entièrement anonyme et sécurisée. Nous n'utilisons pas de cookies de suivi ni de publicités ciblées.</p>
+            </section>
+
+            <section aria-labelledby="ordering-heading" style="margin-top:30px;">
+                <h2 id="ordering-heading">Processus de commande</h2>
+                <p>Toutes nos commandes sont finalisées via <strong>WhatsApp</strong>, pour votre commodité et sécurité :</p>
+                <ol>
+                    <li>Choisissez vos produits sur notre site</li>
+                    <li>Ajoutez-les à votre panier</li>
+                    <li>Cliquez sur "Commander via WhatsApp"</li>
+                    <li>Un message pré-formaté s'ouvre avec le détail de votre commande</li>
+                    <li>Confirmez et finalisez directement avec notre équipe sur WhatsApp</li>
+                </ol>
+                <p>Cette méthode nous permet de vous offrir un service personnalisé, avec confirmation immédiate et suivi en temps réel de votre commande.</p>
+            </section>
+
+            <section aria-labelledby="contact-heading" style="margin-top:30px;">
+                <h2 id="contact-heading">Contact</h2>
+                <p>Pour toute question, suggestion ou assistance, notre équipe est à votre disposition :</p>
+                <ul style="list-style:none; padding-left:0;">
+                    <li>📱 <strong>WhatsApp :</strong> <a href="https://wa.me/221764536464" target="_blank" rel="noopener" aria-label="Contacter par WhatsApp">+221 76 453 6464</a></li>
+                    <li>📧 <strong>Email :</strong> contact@boutiqueonline.sn</li>
+                    <li>📍 <strong>Localisation :</strong> Sénégal</li>
+                </ul>
+                <p>Nous répondons généralement sous 24 heures.</p>
+            </section>
+
+            <section aria-labelledby="values-heading" style="margin-top:30px;">
+                <h2 id="values-heading">Nos valeurs</h2>
+                <ul style="padding-left:20px;">
+                    <li><strong>Qualité :</strong> Nous sélectionnons soigneusement chaque produit</li>
+                    <li><strong>Transparence :</strong> Prix clairs, pas de frais cachés</li>
+                    <li><strong>Service client :</strong> À votre écoute 7j/7</li>
+                    <li><strong>Engagement local :</strong> Soutien aux producteurs et artisans sénégalais</li>
+                </ul>
+            </section>
+
+            <p style="margin-top:30px; padding-top:20px; border-top:1px solid #eee; font-size:0.95em; color:#555;">
+                <strong>Dernière mise à jour :</strong> Février 2026
+            </p>
+        </div>
+    </main>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartModalTitle" aria-hidden="true">
+        <div class="modal-content">
+            <button class="close" aria-label="Fermer le panier">&times;</button>
+            <h2 id="cartModalTitle">Votre Panier</h2>
+            <div id="cartItems" role="list"></div>
+            <div class="cart-total">
+                <strong>Total: <span id="totalPrice">0</span> FCFA</strong>
+            </div>
+            <button class="btn btn-primary" id="checkoutBtn" aria-label="Commander via WhatsApp">Commander via WhatsApp</button>
+        </div>
     </div>
-  </footer>
 
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Boutique Online</h3>
+                    <p>Votre destination mode au Sénégal</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>📞 +221 76 453 6464</p>
+                    <p>📧 contact@boutiqueonline.sn</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liens utiles</h4>
+                    <ul>
+                        <li><a href="/about" aria-label="À propos" class="active">À propos</a></li>
+                        <li><a href="/" aria-label="Accueil">Accueil</a></li>
+                        <li><a href="/cgv" aria-label="Conditions générales">CGV</a></li>
+                        <li><a href="/contact" aria-label="Contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Boutique Online. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Boutique Online",
+      "url": "{{ request.url_root }}",
+      "logo": "{{ url_for('static', filename='img/logo.png', _external=True) }}",
+      "description": "Boutique en ligne de mode et accessoires au Sénégal",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+221764536464",
+        "contactType": "customer service",
+        "areaServed": "SN",
+        "availableLanguage": "French"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "SN",
+        "addressRegion": "Sénégal"
+      },
+      "sameAs": [
+        "https://wa.me/221764536464"
+      ]
+    }
+    </script>
+
+    <!-- JavaScript with async loading for better performance -->
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    
+    <!-- Google Analytics (optional) -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'YOUR_GA_ID');
+    </script>
+    -->
 </body>
 </html>
