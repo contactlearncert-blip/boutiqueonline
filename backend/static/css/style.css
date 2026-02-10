@@ -16,7 +16,7 @@ body {
 }
 
 /* Fix header and top bar */
- .top-bar {
+.top-bar {
     position: fixed;
     top: 0;
     left: 0;
@@ -232,6 +232,13 @@ body {
     padding: 6px 12px;
     border-radius: 20px;
     font-weight: 800;
+}
+
+/* Hero Section Background - AJOUTÉ */
+.hero-background {
+  background-image: url('../img/background.png');
+  background-size: cover;
+  background-position: center;
 }
 
 /* gentle overlay so background image remains visible */

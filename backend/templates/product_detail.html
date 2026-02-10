@@ -52,7 +52,10 @@
                         <span id="qtyDisplay">1</span>
                         <button onclick="increaseQty()">+</button>
                     </div>
-                    <button class="btn btn-primary" onclick="addToCartFromDetail({{ product.id }}, '{{ product.name }}', {{ product.price }})">
+                    <button class="btn btn-primary" id="addToCartBtn"
+                        data-product-id="{{ product.id }}"
+                        data-product-name="{{ product.name }}"
+                        data-product-price="{{ product.price }}">
                         Ajouter au panier
                     </button>
                 </div>
@@ -94,14 +97,21 @@
             }
         }
 
-        function addToCartFromDetail(id, name, price) {
+        function addToCartFromDetail() {
+            const btn = document.getElementById('addToCartBtn');
+            const productId = btn.getAttribute('data-product-id');
+            const productName = btn.getAttribute('data-product-name');
+            const productPrice = parseInt(btn.getAttribute('data-product-price'));
+            
             for (let i = 0; i < detailQty; i++) {
-                addToCart(id, name, price);
+                addToCart(productId, productName, productPrice);
             }
-            showNotification(`${detailQty}x ${name} ajoutés au panier!`);
+            showNotification(`${detailQty}x ${productName} ajoutés au panier!`);
             detailQty = 1;
             document.getElementById('qtyDisplay').textContent = detailQty;
         }
+
+        document.getElementById('addToCartBtn').addEventListener('click', addToCartFromDetail);
     </script>
 </body>
 </html>

@@ -28,7 +28,7 @@ async function loadProducts() {
 // Filtrer par catégorie
 function filterCategory(category) {
     currentCategory = category;
-    const buttons = document.querySelectorAll('.category-item');
+    const buttons = document.querySelectorAll('.category-nav li');
     buttons.forEach(btn => btn.classList.remove('active'));
     
     if (category === 'all') {
@@ -37,7 +37,13 @@ function filterCategory(category) {
     } else {
         const filtered = allProducts.filter(p => p.category === category);
         displayProducts(filtered);
-        event.target.classList.add('active');
+        
+        // Trouver et activer le bon bouton
+        buttons.forEach(btn => {
+            if (btn.textContent.trim() === category) {
+                btn.classList.add('active');
+            }
+        });
     }
 }
 
@@ -62,12 +68,16 @@ function performSidebarSearch() {
         );
     });
 
-    // Ajouter les sélecteurs de quantité
+    displayProducts(filtered);
+    
+    // Ajouter les sélecteurs de quantité après un petit délai
     setTimeout(() => {
         addQuantitySelectorToCards();
     }, 0);
+}
 
-    displayProducts(filtered);
+// ========== FONCTIONS DE QUANTITÉ (À L'EXTÉRIEUR) ==========
+
 // Ajouter sélecteur de quantité aux cartes
 function addQuantitySelectorToCards() {
     const cards = document.querySelectorAll('.product-card');
@@ -93,13 +103,15 @@ function addQuantitySelectorToCards() {
             button.onclick = (e) => {
                 e.preventDefault();
                 const qty = parseInt(selector.querySelector('.qty-value').textContent);
+                const productId = parseInt(card.querySelector('.product-link').href.split('/').pop());
+                const productName = card.querySelector('.product-name').textContent;
+                const productPrice = parseInt(card.querySelector('.product-price').textContent.replace(' FCFA', ''));
+                
                 for (let i = 0; i < qty; i++) {
-                    addToCart(parseInt(card.querySelector('.product-link').href.split('/').pop()), 
-                             card.querySelector('.product-name').textContent, 
-                             parseInt(card.querySelector('.product-price').textContent));
+                    addToCart(productId, productName, productPrice);
                 }
                 selector.querySelector('.qty-value').textContent = '1';
-                showNotification(`${qty}x ${card.querySelector('.product-name').textContent} ajoutés au panier!`);
+                showNotification(`${qty}x ${productName} ajoutés au panier!`);
             };
         }
     });
@@ -119,7 +131,8 @@ function decreaseQtyCard(btn) {
         qty.textContent = current - 1;
     }
 }
-}
+
+// ========== FIN FONCTIONS DE QUANTITÉ ==========
 
 // Afficher les produits avec pagination
 function displayProducts(products) {
@@ -157,7 +170,7 @@ function renderProductsPage() {
             </a>
             <div class="product-footer">
                 <span class="product-price">${product.price} FCFA</span>
-                <button class="btn" onclick="addToCart(${product.id}, '${product.name}', ${product.price})">
+                <button class="btn" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price})">
                     Ajouter
                 </button>
             </div>
@@ -166,6 +179,11 @@ function renderProductsPage() {
     });
 
     renderPagination();
+    
+    // Ajouter les sélecteurs de quantité après rendu
+    setTimeout(() => {
+        addQuantitySelectorToCards();
+    }, 0);
 }
 
 // Afficher les boutons de pagination
