@@ -8,17 +8,22 @@ import os
 IS_VERCEL = os.environ.get("VERCEL") is not None
 
 if IS_VERCEL:
-    # Configuration pour Vercel (chemins relatifs)
+    # Configuration pour Vercel - chemin absolu vers le dossier templates
+    # Sur Vercel, l'application est dans /var/task/api/, donc on remonte d'un niveau
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    ROOT_DIR = os.path.dirname(BASE_DIR)  # /var/task
+    
     app = Flask(
         __name__,
-        template_folder="templates",
-        static_folder="static",
+        template_folder=os.path.join(ROOT_DIR, 'templates'),
+        static_folder=os.path.join(BASE_DIR, 'static'),
         static_url_path="/static"
     )
     print("✅ Mode Vercel activé")
     print(f"Templates folder: {app.template_folder}")
     print(f"Static folder: {app.static_folder}")
     print(f"Current working directory: {os.getcwd()}")
+    print(f"ROOT_DIR: {ROOT_DIR}")
 else:
     # Configuration locale (chemins absolus)
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -84,7 +89,9 @@ def load_products():
     # Fallback: charger depuis JSON
     try:
         if IS_VERCEL:
-            products_file = "products.json"
+            BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+            ROOT_DIR = os.path.dirname(BASE_DIR)
+            products_file = os.path.join(ROOT_DIR, 'products.json')
         else:
             products_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'products.json')
         
