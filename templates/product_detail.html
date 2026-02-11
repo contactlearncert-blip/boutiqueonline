@@ -1,5 +1,34 @@
 <!DOCTYPE html>
 <html lang="fr">
+
+<!-- Header -->
+    <header class="header" role="banner">
+        <div class="container header-content">
+            <button class="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+
+            <div class="logo-section">
+                <a href="/" class="logo-link">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Boutique Online" class="logo-img" onerror="this.style.display='none'">
+                    <span class="logo">Boutique Online</span>
+                </a>
+            </div>
+
+            <div class="header-icons">
+                <button class="btn-cart" aria-label="Ouvrir le panier" aria-haspopup="dialog">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count" id="cartCountBadge">0</span>
+                    <span class="visually-hidden">articles dans le panier</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="search-area desktop-search">
+            <form action="/search" method="GET" role="search">
+                <input type="text" class="search-input" name="q" placeholder="Cherchez un produit, une marque ou une catégorie" aria-label="Recherche">
+                <button type="submit" class="btn-search" aria-label="Rechercher">Rechercher</button>
+            </form>
+        </div>
+    </header>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
