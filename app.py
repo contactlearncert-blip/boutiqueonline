@@ -219,7 +219,7 @@ def get_product(product_id):
 def whatsapp_link():
     try:
         data = request.json
-        phone = "212716639486"  # Numéro WhatsApp corrigé
+        phone = "22676593914"  # Numéro WhatsApp corrigé
         
         message = "Bonjour, je voudrais commander:\n\n"
         total = 0

@@ -9,7 +9,7 @@
             <div class="logo-section">
                 <a href="/" class="logo-link">
                     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Boutique Online" class="logo-img" onerror="this.style.display='none'">
-                    <span class="logo">Boutique Online</span>
+                    <span class="logo">DIANDA S'STORE</span>
                 </a>
             </div>
 
@@ -37,7 +37,7 @@
     <title>{{ product.name }} - Boutique Online | Mode & Accessoires</title>
     <meta name="description" content="{{ product.description }}">
     <meta name="keywords" content="{{ product.category }}, {{ product.name }}, boutique en ligne, Sénégal, mode">
-    <meta name="author" content="Boutique Online">
+    <meta name="author" content="DIANDA S'STORE">
     <meta name="robots" content="index, follow">
     
     <!-- Open Graph / Social Media Meta -->
@@ -46,13 +46,13 @@
     <meta property="og:type" content="product">
     <meta property="og:url" content="{{ request.url }}">
     <meta property="og:image" content="{{ product.image if product.image.startswith('http') else url_for('static', filename=product.image, _external=True) }}">
-    <meta property="og:site_name" content="Boutique Online">
+    <meta property="og:site_name" content="DIANDA S'STORE">
     <meta property="og:price:amount" content="{{ product.price }}">
     <meta property="og:price:currency" content="XOF">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ product.name }} - Boutique Online">
+    <meta name="twitter:title" content="{{ product.name }} - DIANDA S'STORE">
     <meta name="twitter:description" content="{{ product.description }}">
     <meta name="twitter:image" content="{{ product.image if product.image.startswith('http') else url_for('static', filename=product.image, _external=True) }}">
     
@@ -154,13 +154,13 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Boutique Online</h3>
-                    <p>Votre destination mode au Sénégal</p>
+                    <h3>DIANDA S'STORE</h3>
+                    <p>Votre destination mode à OUAGADOUGOU</p>
                 </div>
                 <div class="footer-section">
                     <h4>Contact</h4>
-                    <p>📞 +212 716-639-486</p>
-                    <p>📧 contact@boutiqueonline.sn</p>
+                    <p>📞 +226 765-93914</p>
+                    <p>📧 diandakarim45@gmail.com</p>
                 </div>
                 <div class="footer-section">
                     <h4>Liens utiles</h4>
@@ -172,7 +172,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Boutique Online. Tous droits réservés.</p>
+                <p>&copy; 2026 DIANDA S'STORE. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
@@ -199,7 +199,7 @@
         "seller": {
           "@type": "Organization",
           "name": "Boutique Online",
-          "telephone": "+212716639486",
+          "telephone": "+22676593914",
         }
       }
     }
