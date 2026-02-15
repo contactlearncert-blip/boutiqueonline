@@ -219,40 +219,61 @@ def get_product(product_id):
 def whatsapp_link():
     try:
         data = request.json
-        phone = "22676593914"  # Numéro WhatsApp corrigé
+        phone = "22676593914"  # Numéro WhatsApp
         
-        message = "Bonjour, je voudrais commander:\n\n"
+        # Récupérer l'URL du site pour les images relatives
+        site_url = os.getenv('SITE_URL', request.host_url.rstrip('/'))
+        
+        message_lines = ["Bonjour, je souhaite commander :\n"]
         total = 0
         
         for item in data.get('items', []):
-            product_id = item['id']
-            quantity = item['quantity']
-            products = load_products()
-            product = next((p for p in products if p['id'] == product_id), None)
+            product_id = item.get('id')
+            product_name = item.get('name', 'Produit')
+            quantity = item.get('quantity', 1)
+            product_price = item.get('price', 0)
+            product_image = item.get('image', '')  # URL déjà fournie par le frontend
             
-            if product:
-                price = product['price'] * quantity
-                total += price
-                message += f"- {product['name']} x{quantity} = {price} FCFA\n"
-                img = product.get('image', '')
-                if img:
-                    if img.startswith('http'):
-                        img_url = img
+            # Calculer le prix total pour cet article
+            price_total = product_price * quantity
+            total += price_total
+            
+            # Ajouter les informations du produit au message
+            message_lines.append(f"\n📦 *{product_name}*")
+            message_lines.append(f"Quantité : x{quantity}")
+            message_lines.append(f"Prix : {price_total} FCFA")
+            
+            # Ajouter l'URL de l'image si elle existe
+            if product_image:
+                # Si l'image est relative, construire l'URL complète
+                if not product_image.startswith('http'):
+                    # Nettoyer le chemin
+                    clean_path = product_image.lstrip('./').lstrip('/')
+                    # Construire l'URL complète
+                    if not clean_path.startswith('static/'):
+                        product_image = f"{site_url}/static/{clean_path}"
                     else:
-                        try:
-                            img_url = url_for('static', filename=img, _external=True)
-                        except Exception:
-                            img_url = request.host_url.rstrip('/') + '/' + img.lstrip('/')
-                    message += f"Image: {img_url}\n"
+                        product_image = f"{site_url}/{clean_path}"
+                
+                message_lines.append(f"📸 {product_image}")
         
-        message += f"\nTotal: {total} FCFA"
+        # Ajouter le total et la signature
+        message_lines.append(f"\n💰 *TOTAL : {total} FCFA*")
+        message_lines.append("\nMerci de confirmer ma commande !")
         
-        # CORRECTION : Suppression des espaces après wa.me/
+        # Joindre toutes les lignes
+        message = '\n'.join(message_lines)
+        
+        # Générer l'URL WhatsApp SANS ESPACES
         whatsapp_url = f"https://wa.me/{phone}?text={quote(message)}"
         
+        print(f"WhatsApp URL générée: {whatsapp_url[:100]}...")  # Debug
         return jsonify({'url': whatsapp_url})
+        
     except Exception as e:
         print(f"Erreur dans API /api/whatsapp-link: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
 # Route de santé
